@@ -121,10 +121,11 @@ class Manager extends CI_Controller {
 		$config['max_width']  = '800';
 		$config['max_height']  = '800';
 		$config['encrypt_name']	= TRUE;
+		$account_id = $this->input->post("account_id");
 		$brand_id = $this->input->post("brand_id");
 		$brand_name = $this->input->post("brand_name");
 		$brand_logo = $this->input->post("brand_logo");
-		$token = $this->session->userdata("node_token");
+		$token = $this->input->post("node_token");
 		$uploaded = false;
 
 		// Uploading
@@ -136,7 +137,7 @@ class Manager extends CI_Controller {
 			if ($brand_id && trim($error) == "<p>You did not select a file to upload.</p>")
 			{
 				$this->load->model("generic_mo");
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($this->account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&api_token=" . urlencode($token));	
+				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&api_token=" . urlencode($token));	
 			}
 			else 
 			{
@@ -191,9 +192,9 @@ class Manager extends CI_Controller {
 
 			$this->load->model("generic_mo");
 			if ($brand_id)
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($this->account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));	
+				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));	
 			else 
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/add_merchant_brand?account_id=" . urlencode($this->account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));
+				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));
 		}
 
 		// Output
