@@ -156,6 +156,7 @@ class Manager extends CI_Controller {
 			$data = $this->upload->data();
 			$uploaded = true;
 			$brand_logo = "/var/www/freebio/brandlogo/" . $data["file_name"];
+			$brand_logo_url = "http://162.243.36.176/freebio/brandlogo/" . $data["file_name"];
 
 			// create Thumbnail cropped
 			$target_thumb_size = 100;
@@ -192,9 +193,9 @@ class Manager extends CI_Controller {
 
 			$this->load->model("generic_mo");
 			if ($brand_id)
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));	
+				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&api_token=" . urlencode($token));	
 			else 
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo) . "&api_token=" . urlencode($token));
+				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&api_token=" . urlencode($token));
 		}
 
 		// Output
