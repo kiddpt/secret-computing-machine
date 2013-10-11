@@ -4,11 +4,9 @@ class Manager extends CI_Controller {
 
 	public function __construct() {
         parent::__construct();
-        if ($this->input->ip_address() == "127.0.0.1") {
-	    	header( 'Access-Control-Allow-Origin: http://promotexter2.loc' );
-		    header( "Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS" );
-		    header( 'Access-Control-Allow-Headers: content-type' );
-		}
+    	header( 'Access-Control-Allow-Origin: *' );
+	    header( "Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS" );
+	    header( 'Access-Control-Allow-Headers: content-type' );
 		$this->load->model("generic_mo");
 	}
 
