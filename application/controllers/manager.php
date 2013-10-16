@@ -34,16 +34,15 @@ class Manager extends CI_Controller {
 		if ($this->input->get("photo")) {
 			if ($this->input->get("multiple")) {
 				$sizes = array("200", "300", "400", "640", "800", "1200", "1920", "thumb");
-				$filepath = "/var/www/freebio/" . $this->input->get("photo");
+				$filepath = "/home/images/freebio/campaigns/original/" . $this->input->get("photo");
 				if (file_exists($filepath))
 					unlink($filepath);
 				foreach($sizes as $s) {
-					$filepath = "/var/www/freebio/campaigns/$s/" . $this->input->get("photo");
+					$filepath = "/home/images/freebio/campaigns/$s/" . $this->input->get("photo");
 					if (file_exists($filepath))
 						unlink($filepath);
 				}
-			} else if (file_exists(".".$this->input->get("photo")))
-					unlink(".".$this->input->get("photo"));
+			}
 		}
 		else {
 			echo "NO parameters";
@@ -64,7 +63,7 @@ class Manager extends CI_Controller {
 
 		$hash = $this->encrypt->sha1($pic['name'].time());
 		$filename = $hash.'.'.$extension;
-		$path = "/var/www/freebio/".$filename;
+		$path = "/home/images/freebio/campaigns/original/".$filename;
 
 		if ($pic['name'] == "") {
 			$data['size'] = $pic['size'];
@@ -115,7 +114,7 @@ class Manager extends CI_Controller {
 	}
 
 	function upload_brandlogo() {
-		$config['upload_path'] = '/var/www/freebio/brandlogo/';
+		$config['upload_path'] = '/home/images/freebio/brandlogo/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '2048';
 		$config['max_width']  = '800';
@@ -155,7 +154,7 @@ class Manager extends CI_Controller {
 			// Resizing
 			$data = $this->upload->data();
 			$uploaded = true;
-			$brand_logo = "/var/www/freebio/brandlogo/" . $data["file_name"];
+			$brand_logo = "/home/images/freebio/brandlogo/" . $data["file_name"];
 			$brand_logo_url = "http://162.243.36.176/freebio/brandlogo/" . $data["file_name"];
 
 			// create Thumbnail cropped
@@ -201,7 +200,7 @@ class Manager extends CI_Controller {
 		// Output
 		if ($node["out"] === false) {
 			if ($data["file_name"])
-				unlink("/var/www/freebio/brandlogo/" . $data["file_name"]);
+				unlink("/home/images/freebio/brandlogo/" . $data["file_name"]);
 			echo json_encode(array(
 				"status" => "error",
 				"message" => $node["err"],
@@ -211,10 +210,10 @@ class Manager extends CI_Controller {
 		}
 		else if ($node["info"]['http_code'] != 200) {
 			if ($data["file_name"])
-				unlink("/var/www/freebio/brandlogo/" . $data["file_name"]);
+				unlink("/home/images/freebio/brandlogo/" . $data["file_name"]);
 			echo json_encode(array(
 				"status" => "error",
-				"file" => $uploaded ? "/var/www/freebio/brandlogo/" . $data["file_name"] : $brand_logo, 
+				"file" => $uploaded ? "/home/images/freebio/brandlogo/" . $data["file_name"] : $brand_logo, 
 				"message" => $node["out"],
 				"statusCode" => $node["info"]['http_code']
 				));
@@ -222,12 +221,12 @@ class Manager extends CI_Controller {
 		}
 		else {
 			if ($uploaded)
-				$this->session->set_userdata("/var/www/freebio/brandlogo/" . $data["file_name"], true);
+				$this->session->set_userdata("/home/images/freebio/brandlogo/" . $data["file_name"], true);
 			echo json_encode(array(
 				"status" => "success",
 				"resize" => $resize,
 				"message" => "Brand saved.",
-				"file" => $uploaded ? "/var/www/freebio/brandlogo/" . $data["file_name"] : $brand_logo,
+				"file" => $uploaded ? "/home/images/freebio/brandlogo/" . $data["file_name"] : $brand_logo,
 				"statusCode" => 200,
 				"node" => $node
 				));

@@ -19,7 +19,7 @@
          if ($w <= $pic_resolution[0]) {
             $ratio = $pic_resolution[1]/$pic_resolution[0];
             $h = $w * $ratio;
-            $configs[] = array("width" => $w, "height" => $h, "relpath" => "campaigns/$w", "path" => "/var/www/freebio/campaigns/$w", "maintain_ratio" => false);
+            $configs[] = array("width" => $w, "height" => $h, "relpath" => "campaigns/$w", "path" => "/home/images/freebio/campaigns/$w", "maintain_ratio" => false);
          } else break;
       }
 
@@ -29,7 +29,7 @@
       if ($original_width > $original_height)
          $size = floor(($original_width)*($target_thumb_size/$original_height));
       else $size = floor(($original_height)*($target_thumb_size/$original_width));
-      $thumb = "/var/www/freebio/campaigns/thumb/" . basename($full_path);
+      $thumb = "/home/images/freebio/campaigns/thumb/" . basename($full_path);
 
       $config = array(
          'image_library'     => 'gd2',
