@@ -124,7 +124,12 @@ class Manager extends CI_Controller {
 		$brand_id = $this->input->post("brand_id");
 		$brand_name = $this->input->post("brand_name");
 		$brand_logo = $this->input->post("brand_logo");
+		$bypass_key = $this->input->post("bypass_key");
+		$bypass_token = $this->input->post("bypass_token");
 		$token = $this->input->post("node_token");
+		$server = $this->input->post("server");
+		if (!$server) $server = "http://192.241.222.166:8998/";
+
 		$uploaded = false;
 
 		// Uploading
@@ -136,7 +141,7 @@ class Manager extends CI_Controller {
 			if ($brand_id && trim($error) == "<p>You did not select a file to upload.</p>")
 			{
 				$this->load->model("generic_mo");
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&api_token=" . urlencode($token));	
+				$node = $this->generic_mo->curl_with_error($server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));	
 			}
 			else 
 			{
