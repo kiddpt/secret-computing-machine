@@ -128,6 +128,7 @@ class Manager extends CI_Controller {
 		$bypass_token = $this->input->post("bypass_token");
 		$token = $this->input->post("node_token");
 		$server = $this->input->post("server");
+		$node_url = "";
 		if (!$server) $server = "http://192.241.222.166:8998/";
 
 		$uploaded = false;
@@ -141,7 +142,8 @@ class Manager extends CI_Controller {
 			if ($brand_id && trim($error) == "<p>You did not select a file to upload.</p>")
 			{
 				$this->load->model("generic_mo");
-				$node = $this->generic_mo->curl_with_error($server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));	
+				$node_url = $server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token);
+				$node = $this->generic_mo->curl_with_error($node_url);	
 			}
 			else 
 			{
@@ -197,9 +199,11 @@ class Manager extends CI_Controller {
 
 			$this->load->model("generic_mo");
 			if ($brand_id)
-				$node = $this->generic_mo->curl_with_error($server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));	
+				$node_url = $server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token);
 			else 
-				$node = $this->generic_mo->curl_with_error($server . "add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));
+				$node_url = $server . "add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token);
+			
+			$node = $this->generic_mo->curl_with_error($node_url);
 		}
 
 		// Output
@@ -209,7 +213,8 @@ class Manager extends CI_Controller {
 			echo json_encode(array(
 				"status" => "error",
 				"message" => $node["err"],
-				"statusCode" => 503
+				"statusCode" => 503,
+				"url" => $node_url
 				));
 			$this->output->set_status_header('503');
 		}
@@ -220,7 +225,8 @@ class Manager extends CI_Controller {
 				"status" => "error",
 				"file" => $uploaded ? "/home/images/freebio/brandlogo/" . $data["file_name"] : $brand_logo, 
 				"message" => $node["out"],
-				"statusCode" => $node["info"]['http_code']
+				"statusCode" => $node["info"]['http_code'],
+				"url" => $node_url
 				));
 			$this->output->set_status_header($node["info"]['http_code']);
 		}
@@ -233,7 +239,7 @@ class Manager extends CI_Controller {
 				"message" => "Brand saved.",
 				"file" => $uploaded ? "/home/images/freebio/brandlogo/" . $data["file_name"] : $brand_logo,
 				"statusCode" => 200,
-				"node" => $node
+				"url" => $node_url
 				));
 		}
 	}
