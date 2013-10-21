@@ -197,9 +197,9 @@ class Manager extends CI_Controller {
 
 			$this->load->model("generic_mo");
 			if ($brand_id)
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&api_token=" . urlencode($token));	
+				$node = $this->generic_mo->curl_with_error($server . "update_merchant_brand?account_id=" . urlencode($account_id) . "&brand_id=" . urlencode($brand_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));	
 			else 
-				$node = $this->generic_mo->curl_with_error("http://192.241.222.166:8998/add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&api_token=" . urlencode($token));
+				$node = $this->generic_mo->curl_with_error($server . "add_merchant_brand?account_id=" . urlencode($account_id) . "&brand_name=" . urlencode($brand_name) . "&brand_logo=" . urlencode($brand_logo_url) . "&bypass_key=" . urlencode($bypass_key) . "&bypass_token=" . urlencode($bypass_token) . "&api_token=" . urlencode($token));
 		}
 
 		// Output
