@@ -114,6 +114,8 @@ class Manager extends CI_Controller {
 	}
 
 	function upload_brandlogo() {
+		if ($this->input->server('REQUEST_METHOD') == "OPTIONS")
+			return;
 		$config['upload_path'] = '/home/images/freebio/brandlogo/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '2048';
