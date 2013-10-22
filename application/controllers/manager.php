@@ -226,7 +226,7 @@ class Manager extends CI_Controller {
 				"file" => $uploaded ? "/home/images/freebio/brandlogo/" . $data["file_name"] : $brand_logo, 
 				"message" => $node["out"],
 				"statusCode" => $node["info"]['http_code'],
-				"url" => $node_url
+				"node_url" => $node_url
 				));
 			$this->output->set_status_header($node["info"]['http_code']);
 		}
